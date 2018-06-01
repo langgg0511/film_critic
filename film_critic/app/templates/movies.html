@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static',filename='css/movies.css') }}" rel="stylesheet">
+<style>
+
+</style>
+{% endblock %}
+
+
+{% block page_content %}
+{# 电影信息 #}
+
+<div class="page-header container">
+
+</div>
+<div class="container">
+    <!--电影信息-->
+    <div id="movie-info" class="col-lg-12">
+        <h1 id="mov-{{ movie.id }}" style="font-size: 40px;margin-bottom: 10px;margin-left: 10px">{{ movie.name }}</h1>
+        <div class="col-lg-2">
+            <a href="#">
+                <img src="{{ url_for('static', filename=movie.picture or 'movie_default_large.png') }}"
+                     alt="{{ movie.name }}"
+                >
+            </a></div>
+        <div class="col-lg-4" id="info">
+            <p>导演：{{ movie.director }}</p>
+            <p>主演：{{ movie.actor }}</p>
+            <p>编剧：{{ movie.scriptwriter }}</p>
+            <p>类型：{{ tag }}</p>
+            <p>制片国家/地区：{{ movie.country }}</p>
+            <p>语言：{{ movie.language }}</p>
+            <p>上映日期：{{ movie.release_year }}</p>
+            <p>时长：{{ movie.runtime }}</p>
+            <p>又名：{{ movie.other_name }}</p>
+            <p>评价：</p>
+            <!--电影评分-->
+            <div class="mark" style="background-color: white">
+                <ul class="evaluate-ul">
+                    <li class="emptyStar"><a class="evaluate-a" href="javascript:void(0);" title="很差"
+                                             data-hint="很差">1</a><a
+                            class="evaluate-a" href="javascript:void(0);" title="很差" data-hint="很差">2</a></li>
+                    <li class="emptyStar"><a class="evaluate-a" href="javascript:void(0);" title="较差"
+                                             data-hint="较差">3</a><a
+                            class="evaluate-a" href="javascript:void(0);" title="较差" data-hint="较差">4</a></li>
+                    <li class="emptyStar"><a class="evaluate-a" href="javascript:void(0);" title="还行"
+                                             data-hint="还行">5</a><a
+                            class="evaluate-a" href="javascript:void(0);" title="还行" data-hint="还行">6</a></li>
+                    <li class="emptyStar"><a class="evaluate-a" href="javascript:void(0);" title="推荐"
+                                             data-hint="推荐">7</a><a
+                            class="evaluate-a" href="javascript:void(0);" title="推荐" data-hint="推荐">8</a></li>
+                    <li class="emptyStar"><a class="evaluate-a" href="javascript:void(0);" title="力荐"
+                                             data-hint="力荐">9</a><a
+                            class="evaluate-a" href="javascript:void(0);" title="力荐" data-hint="力荐">10</a></li>
+                    <span id="ratingText" class="" innerText=""></span>
+                    <font style="color:green" id="show_col_msg"></font>
+                </ul>
+            </div>
+        </div>
+        <!--电影当前评分-->
+        <div class="col-lg-5" style="border-left: 2px solid #eee;color: #9b9b9b">
+            <div>X影网评分</div>
+            <div class="col-lg-2">
+                <p style="font-size: 40px;color: #222222">{{ movie.evaluate }}</p>
+            </div>
+            <div class="col-lg-3" style="margin-top: 10px">
+                <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
+                    <div>
+                        <!--评分星星-->
+                        {% for val in range(1,star + 1) %}
+                        <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                        {% endfor %}
+                        {% for val in range(1,5-star + 1) %}
+                        <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <span>{{ movie.evaluate_count }}人评分</span>
+            </div>
+            <!--<div class="col-lg-12">-->
+            <!--<p>5星</p>-->
+            <!--<p>4星</p>-->
+            <!--<p>3星</p>-->
+            <!--<p>2星</p>-->
+            <!--<p>1星</p>-->
+            <!--</div>-->
+        </div>
+
+    </div>
+
+    <!-- 电影评价-->
+    <div class="col-lg-7" style="margin-top: 30px;margin-left: 30px">
+        <h2>{{ movie.name }}的电影简介·····</h2>
+        <p> 　　{{ movie.description }}</p>
+    </div>
+    <div class="col-lg-8">
+        {% if not current_user.is_authenticated %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <strong>请先<a href="{{ url_for('auth.login') }}" target="_blank"
+                         class="text-info">登录</a>，才可参与评论！</strong>
+        </div>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <form role="form" style="margin-bottom:6px;" method="post">
+            <div class="form-group col-lg-12">
+                <div class="col-lg-12">
+                    <label for="input_content">{{ form.content.label }}</label>
+                    {{ form.content }}
+                    {{ form.csrf_token }}
+                    {{ form.submit }}
+                </div>
+                {% for err in form.content.errors %}
+                <div class="col-md-12">
+                    <font style="color:red">{{ err }}</font>
+                </div>
+                {% endfor %}
+            </div>
+
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+
+{% for comment in comments %}
+
+<!--<p>Writer: {{ comment.writer_id }}</p>-->
+<!--<p>Body: {{ comment.body }}</p>-->
+<!--<time>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>-->
+<div class="col-lg-8">
+    <div class="comment-main">
+        <header class="comment-header" id="com-header">
+            <div class="comment-meta">
+                <span class="comment-author"><a
+                        href="{{ url_for('main.user_info', username=comment.user.username) }}">{{ comment.user.username }}</a></span>
+                评论于
+                <time>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+
+                <a id="useless-{{ comment.id }}" data-id="useless" class="comment-evaluate" href="javascript:void(0)"
+                   title="无用"><em>{{ comment.useless_count }}</em>无用</a>
+
+                <a id="useful-{{ comment.id }}" data-id="useful" class="comment-evaluate" href="javascript:void(0)"
+                   title="有用"><em>{{ comment.useful_count }}</em>有用</a>
+            </div>
+        </header>
+        <div class="comment-body">
+            <p>{{ comment.body }}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="page-content col-lg-8 text-center">
+    {{ render_pagination(comment_pagination) }}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<!--<script id="scrap" type="text/javascript" src="{{ url_for('static', filename='js/movies.js') }}"></script>-->
+<script>
+    //点击评分事件
+    $(".evaluate-ul li a").click(function () {
+        var evaluate = parseInt($(this).html());
+//        var user_id = 1;
+//        alert("评分成功");
+//        var movie_id = 1;
+        //获取电影ID
+        var movie_id = document.getElementById("mov-{{ movie.id }}").attributes["id"].value;
+        $.ajax({
+            url: "{{ url_for('main.users_movies_evaluate') }}",
+            type: "GET",
+            data: "movie_id=" + movie_id + "&evaluate=" + evaluate,
+            dataType: "json",
+            success: function (res) {
+                if (res.ok == 1) {
+                    $("#show_col_msg").empty();
+                    $("#show_col_msg").append("评分成功！");
+
+                }
+                if (res.ok == 2) {
+                    $("#show_col_msg").empty();
+                    $("#show_col_msg").append("请登录帐号后评分！");
+                } else {
+                    $("#show_col_msg").empty();
+                    $("#show_col_msg").append("您已经评分！");
+                }
+            }
+        })
+    });
+    $(".evaluate-ul li a").mouseover(function () {
+
+        //判断是全星点还是半星点，修改当前标签的父标签li的class为对应的星星图像
+        if (parseInt($(this).html()) % 2 == 1) {
+            $(this).parent().attr("class", "halfStar");
+            switch (parseInt($(this).html())) {
+                case 1 :
+                    document.getElementById("ratingText").innerHTML = "很差";
+                    break;
+                case 3 :
+                    document.getElementById("ratingText").innerHTML = "较差";
+                    break;
+                case 5 :
+                    document.getElementById("ratingText").innerHTML = "还行";
+                    break;
+                case 7 :
+                    document.getElementById("ratingText").innerHTML = "推荐";
+                    break;
+                case 9:
+                    document.getElementById("ratingText").innerHTML = "力荐";
+                    break;
+                default :
+                    document.getElementById("ratingText").innerHTML = "";
+            }
+        }
+        else {
+            $(this).parent().attr("class", "fullStar");
+            switch (parseInt($(this).html())) {
+                case  2 :
+                    document.getElementById("ratingText").innerHTML = "很差";
+                    break;
+                case  4 :
+                    document.getElementById("ratingText").innerHTML = "较差";
+                    break;
+                case  6 :
+                    document.getElementById("ratingText").innerHTML = "还行";
+                    break;
+                case  8 :
+                    document.getElementById("ratingText").innerHTML = "推荐";
+                    break;
+                case  10 :
+                    document.getElementById("ratingText").innerHTML = "力荐";
+                    break;
+                default :
+                    document.getElementById("ratingText").innerHTML = "";
+            }
+        }
+
+        //对前方的星星进行处理，遍历前方的li使背景图均变为全星
+        var prev = $(this).parent();
+        for (var i = 0; i <= (parseInt($(this).html()) / 2) - 1; i++) {
+            prev.prev().attr("class", "fullStar");
+            prev = prev.prev();
+        }
+        //对后方星星进行处理，遍历后面的li使背景图均变为空星
+        var after = $(this).parent();
+        for (var i = 0; i <= (5 - parseInt($(this).html()) / 2) - 1; i++) {
+            after.next().attr("class", "emptyStar");
+            after = after.next();
+        }
+
+    });
+    $(".comment-meta a").click(function () {
+        var useful_useless = $(this).attr("data-id");
+        var comment_id = $(this).attr("id");
+        var movie_id = document.getElementById("mov-{{ movie.id }}").attributes["id"].value;
+        $.ajax({
+            url: "{{ url_for('main.comment_evaluate') }}",
+            type: "GET",
+            data: "comment_id=" + comment_id + "&movie_id=" + movie_id + "&useful_useless=" + useful_useless,
+            dataType: "json",
+            success: function (res) {
+                if (res.ok == 1) {
+                    alert("点赞成功")
+                }
+                if (res.ok == 2) {
+                    alert("请先登录账户")
+                }
+                if (res.ok == 3) {
+                    alert("您已经点过踩了")
+                }
+                if (res.ok == 4) {
+                    alert("你踩了该评论")
+                }
+                if (res.ok == 0) {
+                    alert("您已经点过赞了")
+                }
+            }
+        })
+
+    });
+
+
+</script>
+{% endblock %}
+
+

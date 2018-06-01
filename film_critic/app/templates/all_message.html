@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .title h1 {
+        word-wrap: break-word;
+        display: block;
+        font-size: 25px;
+        font-weight: bold;
+        color: #494949;
+        margin: 0;
+        padding: 40px 0 40px 0;
+        line-height: 1.1;
+    }
+
+    .user-message li {
+        border-bottom: 1px solid #eaeaea;
+        margin-bottom: 20px;
+        line-height: 2.0;
+    }
+
+    .user-message ul li {
+        list-style: none;
+    }
+
+    .user-message ul li p {
+        display: inline;
+    }
+
+    #message-delete {
+        float: right;
+    }
+
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="col-lg-11">
+    <div class="title">
+        <h1>
+            我的留言板
+        </h1>
+    </div>
+    <div class="user-message">
+        <ul>
+            {% for message in received_messages %}
+            <li>
+                <a href="{{ url_for('main.user_info', username=current_user.username) }}">{{ message.writer.username
+                    }} </a>留言：
+                <p>{{ message.body }}</p><br/>
+
+                <time>{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+                <a href="{{ url_for('main.message_delete',message_id=message.id, username=current_user.username) }}"
+                   id="message-delete">
+                    删除
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

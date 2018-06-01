@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/movies_by_tags.css') }}">
+{% endblock %}
+
+{% block page_content %}
+    <div class="tabs">
+        <a href="{{ url_for('main.movie_by_tag', tag_name=tag_name, sort_id=1) }}" class="tab {% if not tab_index or tab_index == 1 %}tab-checked{% endif %}" index="1">按热门排序</a>
+        <a href="{{ url_for('main.movie_by_tag', tag_name=tag_name, sort_id=2) }}" class="tab {% if tab_index and tab_index == 2 %}tab-checked{% endif %}" index="2">按时间排序</a>
+        <a href="{{ url_for('main.movie_by_tag', tag_name=tag_name, sort_id=3) }}" class="tab {% if tab_index and tab_index == 3 %}tab-checked{% endif %}" index="3">按评价排序</a>
+    </div>
+    <div class="content">
+        {% for movie in movies %}
+            <div class="movie-item">
+                <a href="{{ url_for('main.movie_by_id', movie_id=movie.id) }}">
+                    <div class="poster">
+                        <img src="{{ url_for('static', filename=movie.picture or 'images/movie_default_large.png') }}">
+                    </div>
+                    <p>{{ movie.name }} <br/><span class="movie-evaluate">{{ movie.evaluate or "没有评价" }}</span></p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {{ render_pagination(pagination) }}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,310 @@
+image {
+    max-width: 100%;
+}
+
+.article a:visited, a:link {
+    color: #666699;
+    text-decoration: none;
+}
+
+.article a:hover {
+    color: #333;
+}
+
+.article a img {
+    border-width: 0;
+    vertical-align: middle;
+}
+
+.article ul, .article ol {
+    font-size: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.article {
+    width: 675px;
+    float: left;
+    /*padding-right: 40px;*/
+}
+
+.ui-slide-control {
+    float: right;
+    margin: 5px 0 0 15px;
+
+}
+
+.slide-tip {
+    float: right;
+    line-height: 30px;
+}
+
+#screening .screening-head h2 {
+    color: #111;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 18px;
+}
+
+#screening .screening-head .pre-btn a {
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+    background: url("../images/slide_swithc_2.png") 0 0 no-repeat;
+}
+
+#screening .screening-head .next-btn a {
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+    background: url("../images/slide_swithc_2.png") -18px 0 no-repeat;
+}
+
+#screening .screening-body {
+    overflow: hidden;
+    position: relative;
+    height: 270px;
+}
+
+#screening .slide-content {
+    position: absolute;
+    white-space: nowrap;
+}
+
+.ui-slide-item {
+    display: inline-block;
+    vertical-align: top;
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+
+#screening .ui-slide-item {
+    font-size: 12px;
+    text-align: center;
+    margin-right: 25px;
+    width: 115px;
+    height: 270px;
+    overflow: hidden;
+}
+
+#screening .ui-slide-item img {
+    width: 128px;
+}
+
+#screening .poster {
+    height: 161px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+#screening .title {
+    letter-spacing: -0.31em;
+    font-size: 14px;
+    white-space: nowrap;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#screening .title a {
+    display: inline-block;
+    vertical-align: top;
+    letter-spacing: normal;
+    word-spacing: normal;
+    height: 24px;
+    line-height: 24px;
+
+}
+
+/* 第二个轮播 */
+.slider {
+    width: 675px;
+    overflow: hidden;
+}
+
+.slider-container {
+    height: 456px;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide-wrapper {
+    position: absolute;
+    width: 4900px; /* 700 * 7 = 4900 */
+}
+
+.slide-page {
+    float: left;
+    width: 700px;
+}
+
+.slide-item {
+    position: relative;
+    float: left;
+    display: block;
+    font-size: 13px;
+    text-align: center;
+    margin: 0 25px 10px 0;
+    width: 115px;
+}
+
+/* 弹出框 */
+.slide-item .hot-movie-popover-content {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 115px;
+    z-index: 99;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.slide-item:hover .hot-movie-popover-content {
+    display: block;
+}
+
+.slide-item .movie-info {
+    padding: 20px 25px;
+    width: 235px;
+}
+
+.slide-item .comment {
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding: 20px 25px;
+    color: #666;
+    margin: 0;
+    font-size: 13px;
+    word-wrap: break-word;
+}
+
+.cover-wp {
+    background-size: 100%;
+    height: 161px;
+    overflow: hidden;
+}
+
+.slide-item p {
+    margin: 5px 0 0;
+    height: 54px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slide-item .rating-point {
+    color: #e09015;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+.slide-ctrl {
+    text-align: center;
+    float: none;
+    margin: 0 0 13px;
+    top: -7px;
+}
+
+.slide-ctrl .pre-btn {
+    margin-right: 10px;
+    display: inline-block;
+    float: none;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    background: url("../images/slide_swithc_2.png") 0 0 no-repeat;
+}
+
+.slide-ctrl .next-btn {
+    margin-left: 10px;
+    display: inline-block;
+    float: none;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    background: url("../images/slide_swithc_2.png") -18px 0 no-repeat;
+}
+
+.slide-ctrl .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #D8D8D8;
+    border-radius: 50%;
+    position: relative;
+    top: -5px;
+    margin-right: 5px;
+}
+
+/* hot reviews */
+.review {
+    overflow: hidden;
+    zoom: 1;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.review .review-hd {
+    float: left;
+    width: 68px;
+}
+
+.review .review-hd img {
+    display: inline;
+    width: 68px;
+}
+
+.review-hd h3 {
+    color: #37a;
+    height: auto;
+}
+
+.review-bd {
+    padding-left: 83px;
+}
+
+.review-bd .review-meta {
+    color: #666;
+    padding: 5px 0;
+}
+
+.review-bd .review-content {
+    line-height: 20px;
+}
+
+/* 右边空白处 */
+.aside{
+    padding-left: 100px;
+    line-height: 2.0;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+    /*position:fixed;*/
+}
+
+/*#billboard{*/
+    /**/
+/*}*/
+.billboard-hd{
+    border-bottom: 1px solid #eaeaea;
+}
+#billboard .order {
+	width: 20px;
+	font-size: 11px;
+	text-align: center;
+    border-bottom: 1px solid #eaeaea;
+}
+#billboard .title {
+	width: 320px;
+    font-size: 13px;
+    border-bottom: 1px solid #eaeaea;
+    line-height: 2.5;
+}

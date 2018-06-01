@@ -1,0 +1,70 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}X影网{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+{% endblock %}
+
+{% block navbar %}
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">X影网</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('main.user_info', username=current_user.username) }}">个人中心</a></li>
+                    {% endif %}
+                    {% if current_user.is_administrator %}
+                    <li><a href="{{ url_for('admin.movie_add') }}">添加电影</a></li>
+                    <li><a href="{{ url_for('admin.movie_modify') }}">电影修改</a></li>
+                    <li><a href="{{ url_for('admin.movie_delete') }}">电影删除</a></li>
+                    <li><a href="{{ url_for('admin.users_info') }}">用户增删</a></li>
+                    {% endif %}
+                    <form class="navbar-form navbar-left" action="{{ url_for('main.search') }}" method="get">
+                        <input class="form-control mr-sm-2" type="search" placeholder="搜索电影名" aria-label="Search" name="q">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </form>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('auth.login') }}">登陆</a></li>
+                        <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% include "tag_list.html" %}
+        {% block page_content %}
+        {% endblock %}
+        {% block page_content_aside %}
+        {% endblock %}
+        <div class="footer">
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block scripts %}
+    {{ super() }}
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="col-lg-4">
+    {{ wtf.quick_form(form) }}
+</div>
+
+    <!--<div class="col-md-8">-->
+        <!--&lt;!&ndash;<form class="form">&ndash;&gt;-->
+        <!--<div class="col-lg-4">-->
+            <!--<form class="form">-->
+                <!--{{ form.hidden_tag() }}-->
+            <!--{{ wtf.form_field(form.name) }}-->
+            <!--{{ wtf.form_field(form.actor) }}-->
+            <!--{{ wtf.form_field(form.language) }}-->
+            <!--{{ wtf.form_field(form.tag) }}-->
+            <!--{{ wtf.form_field(form.country) }}-->
+                <!--</form>-->
+
+        <!--</div>-->
+        <!--<div class="col-lg-4">-->
+            <!--<form class="form">-->
+                <!--{{ form.hidden_tag() }}-->
+            <!--{{ wtf.form_field(form.director) }}-->
+            <!--{{ wtf.form_field(form.release_year) }}-->
+            <!--{{ wtf.form_field(form.evaluate) }}-->
+            <!--{{ wtf.form_field(form.evaluate_count) }}-->
+            <!--{{ wtf.form_field(form.picture) }}-->
+                <!--</form>-->
+        <!--</div>-->
+        <!--<div class="col-lg-10">-->
+            <!--<form class="form">-->
+                <!--{{ form.hidden_tag() }}-->
+            <!--{{ wtf.form_field(form.description) }}-->
+                <!--</form>-->
+        <!--</div>-->
+        <!--<div class="col-lg-10">-->
+            <!--<form class="form">-->
+                <!--{{ form.hidden_tag() }}-->
+            <!--{{ wtf.form_field(form.submit) }}-->
+                <!--</form>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;</form>&ndash;&gt;-->
+    <!--</div>-->
+{% endblock %}

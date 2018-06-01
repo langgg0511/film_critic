@@ -1,0 +1,74 @@
+.content {
+    display: block;
+    width: 100%;
+    float: left;
+    margin-top: 40px;
+}
+/* 排序控制 */
+.tabs {
+    border-radius: 2px;
+    display: inline-flex;
+    margin-top: 40px;
+}
+
+.tabs a {
+    float: left;
+    display: block;
+    text-align: center;
+    line-height: 13px;
+    text-decoration: none;
+    padding: 7.5px 15px;
+
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.tabs .tab-checked {
+    border-left: 1px solid #258dcd!important;
+    border-top: 1px solid #258dcd!important;
+    border-bottom: 1px solid #258dcd!important;
+    border-right: 1px solid #258dcd!important;
+    position: relative;
+    background: rgba(37,141,205,.05);
+    color: #258dcd;
+}
+
+/* 电影项 */
+.movie-item {
+    display: inline-block;
+    float: left;
+    margin-right: 40px;
+}
+
+.movie-item a {
+    width: 100px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.movie-item .poster {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+
+.poster img {
+    width: 168px;
+}
+
+.movie-item p {
+    overflow: hidden;
+    color: #333;
+    line-height: 18px;
+    padding-right: 15px;
+    margin: 8px 0 20px;
+    width: 168px;
+    height: 44px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-item .movie-evaluate {
+    color: #d9534f;
+
+}

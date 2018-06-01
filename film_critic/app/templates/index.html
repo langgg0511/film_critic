@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block page_content %}
+    <div class="article">
+        <div class="page-header">
+            <div id="screening">
+                <div class="screening-head">
+                    <div class="ui-slide-control">
+                        <span class="pre-btn"><a href="javascript:void(0)"></a></span>
+                        <span class="next-btn"><a href="javascript:void(0)"></a></span>
+                    </div>
+                    <div class="slide-tip">
+                        <span class="ui-slide-index">1</span>
+                        /
+                        <span class="ui-slide-max">{{ playing_slide_index_max }}</span>
+                    </div>
+                    <h2>正在热映</h2>
+                </div>
+                <div class="screening-body">
+                    <ul class="slide-content" data-slide-index-max="{{ playing_slide_index_max }}">
+                        {% if playing_slide_index_max >= 2 %}
+                            {% for playing_movie in per_page_playing_movies[playing_slide_index_max - 1] %}
+                                {% if playing_movie == 'empty' %}
+                                    <li class="ui-slide-item">
+                                        <ul>
+                                            <li class="poster"><a href=""><img
+                                                    src=""></a>
+                                            </li>
+                                            <li class="title"><a href=""></a></li>
+                                            <li class="rating"><span class="rating-point"></span><span></span></li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li class="ui-slide-item" >
+                                        <ul>
+                                            <li class="poster"><a
+                                                    href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}"><img
+                                                    src="{{ url_for('static', filename=playing_movie.picture or 'images/movie_default_large.png') }}"></a>
+                                            </li>
+                                            <li class="title"><a
+                                                    href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}" >{{ playing_movie.name }}</a>
+                                            </li>
+                                            <li class="rating"><span
+                                                    class="rating-point">{{ playing_movie.evaluate }}</span><span></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% for playing_movies in per_page_playing_movies %}
+                            {% for playing_movie in playing_movies %}
+                                {% if playing_movie == 'empty' %}
+                                    <li class="ui-slide-item" >
+                                        <ul>
+                                            <li class="poster"><a href=""><img
+                                                    src=""></a>
+                                            </li>
+                                            <li class="title"><a href=""></a></li>
+                                            <li class="rating"><span class="rating-point"></span><span></span></li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li class="ui-slide-item" title="{{ playing_movie.name }}">
+                                        <ul>
+                                            <li class="poster"><a
+                                                    href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}"><img
+                                                    src="{{ url_for('static', filename=playing_movie.picture or 'images/movie_default_large.png') }}"></a>
+                                            </li>
+                                            <li class="title"><a
+                                                    href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}">{{ playing_movie.name }}</a>
+                                            </li>
+                                            <li class="rating"><span
+                                                    class="rating-point">{{ playing_movie.evaluate }}</span><span></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        {% if playing_slide_index_max >= 2 %}
+                            {% for playing_movie in per_page_playing_movies[0] %}
+                                <li class="ui-slide-item">
+                                    <ul>
+                                        <li class="poster"><a
+                                                href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}"><img
+                                                src="{{ url_for('static', filename=playing_movie.picture or 'images/movie_default_large.png') }}"></a>
+                                        </li>
+                                        <li class="title"><a
+                                                href="{{ url_for('main.movie_by_id', movie_id=playing_movie.id) }}">{{ playing_movie.name }}</a>
+                                        </li>
+                                        <li class="rating"><span
+                                                class="rating-point">{{ playing_movie.evaluate }}</span><span></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-header">
+            <div class="screening-head">
+                <h2>最近热门电影</h2>
+            </div>
+        </div>
+        <div class="slider">
+            <div class="slider-container">
+                <div class="slide-wrapper">
+                    <div class="slide-page">
+                        {% for hot_movie in per_page_hot_movies[4] %}
+                            <a href="{{ url_for('main.movie_by_id', movie_id=hot_movie.id) }}" class="slide-item">
+
+                                <div class="cover-wp">
+                                    {% if hot_movie.picture %}
+                                        <img src="{{ url_for('static', filename=hot_movie.picture) }}" alt="">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='images/movie_default_large.png') }}"
+                                             alt="">
+                                    {% endif %}
+                                </div>
+                                <p>
+                                    {{ hot_movie.name }}
+                                    <strong>{{ hot_movie.evaluate or '没有评价' }}</strong>
+                                </p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% for hot_movies in per_page_hot_movies %}
+                        <div class="slide-page">
+                            {% for hot_movie in hot_movies %}
+                                <a href="{{ url_for('main.movie_by_id', movie_id=hot_movie.id) }}" class="slide-item" title="{{ hot_movie.name }}">
+
+                                    <div class="cover-wp">
+                                        {% if hot_movie.picture %}
+                                            <img src="{{ url_for('static', filename=hot_movie.picture) }}" alt="">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='images/movie_default_large.png') }}"
+                                                 alt="">
+                                        {% endif %}
+                                    </div>
+                                    <p>
+                                        {{ hot_movie.name }}
+                                        <strong>{{ hot_movie.evaluate or '没有评价' }}</strong>
+                                    </p>
+{#                                    <div class="hot-movie-popover-content">#}
+{#                                        <div class="movie-info">#}
+{#                                            <h3>{{ hot_movie.name }}</h3>#}
+{#                                            <p class="meta">#}
+{#                                                {% for tag in hot_movie.get_tags_name() %}#}
+{#                                                    <span>{{ tag }}</span>#}
+{#                                                {% endfor %}#}
+{#                                            </p>#}
+{#                                            <p class="comment">{{ hot_movie.get_most_useful_comment().body }} <span>{{ hot_movie.get_most_useful_comment().user }}的评论</span></p>#}
+{#                                        </div>#}
+{#                                    </div>#}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <div class="slide-page">
+                        {% for hot_movie in per_page_hot_movies[0] %}
+                            <a href="{{ url_for('main.movie_by_id', movie_id=hot_movie.id) }}" class="slide-item">
+                                <div class="cover-wp">
+                                    {% if hot_movie.picture %}
+                                        <img src="{{ url_for('static', filename=hot_movie.picture) }}" alt="">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='images/movie_default_large.png') }}"
+                                             alt="">
+                                    {% endif %}
+                                </div>
+                                <p>
+                                    {{ hot_movie.name }}
+                                    <strong>{{ hot_movie.evaluate or '没有评价' }}</strong>
+                                </p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="slide-ctrl">
+                <a href="javascript:void(0)" class="pre-btn"></a>
+                <i class="dot" data-index="1"></i>
+                <i class="dot" data-index="2"></i>
+                <i class="dot" data-index="3"></i>
+                <i class="dot" data-index="4"></i>
+                <i class="dot" data-index="5"></i>
+                <a href="javascript:void(0)" class="next-btn"></a>
+            </div>
+        </div>
+        <div class="reviews">
+            <div class="reviews-hd">
+                <h2>最受欢迎影评</h2>
+            </div>
+            <div class="reviews-bd">
+                {% for review in hot_reviews %}
+                    <div class="review">
+                        <div class="review-hd">
+                            <a href="{{ url_for('main.movie_by_id', movie_id=review.movie.id) }}">
+                                {% if review.movie.picture %}
+                                    <img src="{{ url_for('static', filename=review.movie.picture) }}" alt="">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='images/movie_default_large.png') }}"
+                                         alt="">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="review-bd">
+                            <h3>{{ review.title }}</h3>
+                            <div class="review-meta"><a
+                                    href="{{ url_for('main.user_info', username=review.user.username) }}">{{ review.user.username }}</a> 评论 <a href="{{ url_for('main.movie_by_id', movie_id=review.movie.id) }}">{{ review.movie.name }}</a></div>
+                            <div class="review-content">{{ review.body }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{# 右边空白栏 #}
+{% block page_content_aside %}
+    <div class="aside" id="my-messages" style="margin-bottom: 30px">
+        <h2>我的最新留言</h2>
+        {% if current_user.is_authenticated %}
+            <ul>
+                {% for message in current_user.get_new_messages() %}
+                    <li style="list-style: none">
+                        <p>{{ message.writer.username }}的留言：{{ message.body }} <br/><time style="font-size: 13px;color: #666666;">{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</time></p>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="tips">
+                <a href="{{ url_for('auth.login') }}" style="font-size: 15px;padding: 10px">您还未登陆</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="aside" id="billboard">
+        <div class="billboard-hd">
+            <h2>本周口碑榜</h2>
+        </div>
+        <div class="billboard-hd">
+            <table>
+                <tbody>
+                {% for i in num_list %}
+                    <tr>
+                        <td class="order">
+                            {{ i+1 }}
+                        </td>
+                        <td class="title"><a href="{{ url_for('main.movie_by_id', movie_id=hot_movie[i].id) }}">{{ hot_movie[i].name }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

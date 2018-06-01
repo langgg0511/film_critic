@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        .user-comments-page h2 {
+            font-size: 24px;
+        }
+        .user-comments-page a, .user-message a {
+            font-size: 13px;
+        }
+        .user-comments-page .comment {
+            overflow: hidden;
+            zoom: 1;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .user-comments-page .comment a {
+            color: #072;
+            font-size: 17px;
+        }
+        .user-comments-page .comment .comment-bd {
+            margin-left: 83px;
+        }
+        .user-comments-page .comment img {
+            width: 68px;
+            float: left;
+        }
+        .user-comments-page .comment time {
+            float: right;
+            color: #666666;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div class="user-comments-page">
+        <h2>{% if current_user == user %}我的评论{% else %}{{ user.username }}的评论{% endif %}<a href="javascript:void(0)">(全部)</a>
+        </h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <a href="{{ url_for('main.movie_by_id', movie_id=comment.movie.id) }}">
+                    <img src="{{ url_for('static', filename=comment.movie.picture) }}" alt="">
+                </a>
+                <div class="comment-bd">
+                    <h2>
+                        <a href="{{ url_for('main.movie_by_id', movie_id=comment.movie.id) }}">{{ comment.movie.name }}</a>
+                    </h2>
+                    <p>{{ comment.body }}</p>
+                    <time>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+                </div>
+            </div>
+        {% endfor %}
+        {{ render_pagination(pagination) }}
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+    </script>
+{% endblock %}

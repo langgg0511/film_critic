@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/movies_by_tags.css') }}">
+{% endblock %}
+
+{% block page_content %}
+    <div class="content">
+        {% for movie in movies %}
+            <div class="movie-item">
+                <a href="{{ url_for('main.movie_by_id', movie_id=movie.id) }}">
+                    <div class="poster">
+                        <img src="{{ url_for('static', filename=movie.picture or 'images/movie_default_large.png') }}">
+                    </div>
+                    <p>{{ movie.name }} <br/> <span class="movie-evaluate">{{ movie.evaluate or "没有评价" }}</span></p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {{ render_pagination(pagination) }}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block head %}
+{{ super() }}
+    <style>
+        .user-page a {
+            text-decoration: none;
+        }
+        .user-page form {
+            margin-bottom: 20px;
+        }
+        .user-profile h1 {
+            font-size: 24px;
+        }
+        .user-comments a, .user-message a {
+            font-size: 13px;
+        }
+        .user-comments .comment {
+            overflow: hidden;
+            zoom: 1;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .user-comments .comment a {
+            color: #072;
+            font-size: 17px;
+        }
+        .user-comments .comment .comment-bd {
+            margin-left: 83px;
+        }
+        .user-comments .comment img {
+            width: 68px;
+            float: left;
+        }
+        .user-comments .comment time {
+            float: right;
+            color: #666666;
+        }
+
+        .user-message textarea {
+            width: 97%;
+            height: 50px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            padding: 3px;
+            font-size: 14px;
+            resize: none;
+        }
+        .user-message li {
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 20px;
+        }
+        .user-message ul li {
+            list-style: none;
+        }
+        .user-message ul li p {
+            display: inline;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div class="user-page">
+        <div class="user-profile">
+            <h1>{{ user.username }}</h1>
+            {% if current_user == user %}
+                <form class="user-description-form" action="{{ url_for('main.post_message', username=user.username) }}" method="post" style="display: none">
+                    <input name="user_description" type="text" maxlength="20">
+                    <input name="user_description_submit" type="submit" value="修改">
+                </form>
+                <button class="cancel" style="display: none">取消</button>
+                {% if not user.description %}
+                    <a class="user-description" href="javascript:void(0)">(自我介绍)</a>
+
+                    {% else %}
+                    <span class="user-description-edit">{{ user.description }}<a href="javascript:void(0)">(编辑)</a></span>
+                {% endif %}
+            {% endif %}
+        </div>
+        <br>
+        <div class="user-comments">
+            <h2>{% if current_user == user %}我的评论{% else %}{{ user.username }}的评论{% endif %}<a href="{{ url_for('main.user_comments', username=user.username) }}">(全部)</a></h2>
+
+            {% for comment in user_comments %}
+                <div class="comment">
+                    <a href="{{ url_for('main.movie_by_id', movie_id=comment.movie.id) }}">
+                        <img src="{{ url_for('static', filename=comment.movie.picture) }}" alt="">
+                    </a>
+                    <div class="comment-bd">
+                        <h2><a href="{{ url_for('main.movie_by_id', movie_id=comment.movie.id) }}">{{ comment.movie.name }}</a></h2>
+                        <p>{{ comment.body }}</p>
+                        <time>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="user-message">
+            <h2>留言板<a href="{{ url_for('main.all_message',username=user.username) }}">(全部)</a></h2>
+            <form action="{{ url_for('main.post_message', username=user.username) }}" method="post">
+                <textarea name="message_text" class="user-input-message" cols="30" rows="10"></textarea>
+                <input name="message_text_submit" type="submit" value="留言">
+            </form>
+            <ul>
+                {% for message in user_received_messages %}
+                    <li>
+                        <a href="{{ url_for('main.user_info', username=message.writer.username) }}">{{ message.writer.username }} </a>留言：
+                        <p>{{ message.body }}</p><br/><time>{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.user-description').click(function () {
+                $('.user-description').css('display', 'none');
+                $('.user-description-form').css('display', 'inline');
+                $('.user-profile .cancel').css('display', 'inline');
+            });
+            $('.user-profile .cancel').click(function () {
+                if ({{ user.description }}) {
+                    $('.user-description').css('display', 'none');
+                    $('.user-description-form').css('display', 'none');
+                    $('.user-description-edit').css('display', 'inline');
+                    $('.user-profile .cancel').css('display', 'none');
+                } else {
+                    $('.user-description').css('display', 'inline');
+                    $('.user-description-form').css('display', 'none');
+                }
+
+            });
+            $('.user-description-edit').click(function () {
+                $('.user-description').css('display', 'none');
+                $('.user-description-form').css('display', 'inline');
+                $('.user-description-edit').css('display', 'none');
+                $('.user-profile .cancel').css('display', 'inline');
+            });
+        });
+    </script>
+{% endblock %}

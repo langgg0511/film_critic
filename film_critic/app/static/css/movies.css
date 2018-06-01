@@ -1,0 +1,76 @@
+#input_content {
+    width: 100%;
+    height: 100px;
+}
+
+.comment-meta {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.2;
+}
+
+.comment-body {
+    padding: 15px;
+    overflow: hidden;
+}
+
+.comment-main {
+    position: relative;
+    margin-left: 64px;
+    margin-top: 10px;
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+}
+
+.comment-header {
+    padding: 10px 15px;
+    background: #f8f8f8;
+    border-bottom: 1px solid #eee;
+    text-shadow: 0 0 black;
+}
+
+.mark ul {
+    padding-left: 0;
+    overflow: hidden;
+}
+
+.mark ul li {
+    float: left;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+}
+
+.mark ul li a {
+    display: inline-block;
+    padding-top: 20px;
+    width: 50%;
+    overflow: hidden;
+}
+
+.halfStar {
+    background-image: url(../images/halfStar.png)
+}
+
+.fullStar {
+    background-image: url(../images/fullStar.png)
+}
+
+
+.emptyStar {
+    background-image: url(../images/emptyStar.png)
+}
+
+.comment-evaluate{
+    float: right;
+    padding-right: 10px;
+}
+
+#info p {
+    margin-top: -5px;
+}
